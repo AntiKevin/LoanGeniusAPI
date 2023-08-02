@@ -19,8 +19,6 @@ public class Loan {
     private Double installments;
     @NotBlank
     private Double interest;
-    @NotBlank
-    private Double totalRepayment;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
@@ -58,12 +56,10 @@ public class Loan {
         this.interest = interest;
     }
 
+    @Transient
     public Double getTotalRepayment() {
+        double totalRepayment = amount + (amount * (interest / 100)) * installments;
         return totalRepayment;
-    }
-
-    public void setTotalRepayment(Double totalRepayment) {
-        this.totalRepayment = totalRepayment;
     }
 
     public LocalDateTime getCreatedAt() {
