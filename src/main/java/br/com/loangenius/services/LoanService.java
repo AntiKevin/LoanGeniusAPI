@@ -22,22 +22,22 @@ public class LoanService {
         return loanRepository.findAll();
     }
 
-    public List<Loan> listById(Long id) {
+    public Loan listById(Long id) {
         Optional<Loan> contaOptional = loanRepository.findById(id);
 
         if (contaOptional.isPresent()) {
-            return List.of(contaOptional.get());
+            return loanRepository.getById(id);
         } else {
             throw new BadRequestException("Emprestimo com o id inserido não existe!");
         }
     }
 
-    public List<Loan> create(Loan loan) {
+    public Loan create(Loan loan) {
         loanRepository.save(loan);
         return listById(loan.getId());
     }
 
-    public List<Loan> update(Long id, Loan loan){
+    public Loan update(Long id, Loan loan){
         loanRepository.findById(id).ifPresentOrElse((existingLoan) -> {
             loan.setId(id);
             loan.setCreatedAt(existingLoan.getCreatedAt());
@@ -54,7 +54,7 @@ public class LoanService {
         }, () -> {
             throw new BadRequestException("Emprestimo com o id inserido não existe!");
         });
-        return ResponseEntity.ok("Emprestimo Removido com sucesso!");
+        return null;
     }
 
 }

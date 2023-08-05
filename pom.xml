@@ -56,6 +56,18 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.27</version>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.0</version> <!-- Versão do JUnit 5 (verifique a versão mais recente) -->
+			<scope>test</scope> <!-- Indica que é uma dependência apenas para testes -->
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.12.4</version> <!-- Versão do Mockito (verifique a versão mais recente) -->
+			<scope>test</scope> <!-- Indica que é uma dependência apenas para testes -->
+		</dependency>
 
 	</dependencies>
 

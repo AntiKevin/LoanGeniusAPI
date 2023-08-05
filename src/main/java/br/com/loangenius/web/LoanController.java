@@ -3,6 +3,8 @@ package br.com.loangenius.web;
 import br.com.loangenius.entities.Loan;
 import br.com.loangenius.services.LoanService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,22 +25,27 @@ public class LoanController {
     }
 
     @GetMapping("{id}")
-    List<Loan> listById(@PathVariable("id") Long id){
+    Loan listById(@PathVariable("id") Long id){
         return loanService.listById(id);
     }
 
     @PostMapping
-    List<Loan> create(@RequestBody @Valid Loan loan){
-        return loanService.create(loan);
+    public ResponseEntity<Loan> createLoan(@RequestBody @Valid Loan loan) {
+        Loan createdLoan = loanService.create(loan);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(createdLoan);
     }
 
+
     @PutMapping("{id}")
-    List<Loan> update(@PathVariable Long id, @RequestBody Loan loan){
+    Loan update(@PathVariable Long id, @RequestBody Loan loan){
         return loanService.update(id, loan);
     }
 
     @DeleteMapping("{id}")
     ResponseEntity<String> delete(@PathVariable("id") Long id){
-        return loanService.delete(id);
+        loanService.delete(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
