@@ -3,6 +3,7 @@ package br.com.loangenius.services;
 import br.com.loangenius.entities.Loan;
 import br.com.loangenius.exceptions.BadRequestException;
 import br.com.loangenius.repositories.LoanRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class LoanService {
         if (contaOptional.isPresent()) {
             return List.of(contaOptional.get());
         } else {
-            throw new BadRequestException("Conta com o id inserido não existe!");
+            throw new BadRequestException("Emprestimo com o id inserido não existe!");
         }
     }
 
@@ -39,16 +40,21 @@ public class LoanService {
     public List<Loan> update(Long id, Loan loan){
         loanRepository.findById(id).ifPresentOrElse((existingLoan) -> {
             loan.setId(id);
+            loan.setCreatedAt(existingLoan.getCreatedAt());
             loanRepository.save(loan);
         }, () -> {
-            throw new BadRequestException("Conta com o id inserido não existe!");
+            throw new BadRequestException("Emprestimo com o id inserido não existe!");
         });
         return listById(id);
     }
 
-    public List<Loan> delete(Long id) {
-        loanRepository.deleteById(id);
-        return listById(id);
+    public ResponseEntity<String> delete(Long id) {
+        loanRepository.findById(id).ifPresentOrElse((existingLoan) -> {
+            loanRepository.deleteById(id);
+        }, () -> {
+            throw new BadRequestException("Emprestimo com o id inserido não existe!");
+        });
+        return ResponseEntity.ok("Emprestimo Removido com sucesso!");
     }
 
 }

@@ -3,6 +3,7 @@ package br.com.loangenius.web;
 import br.com.loangenius.entities.Loan;
 import br.com.loangenius.services.LoanService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class LoanController {
     }
 
     @DeleteMapping("{id}")
-    List<Loan> delete(@PathVariable("id") Long id){
+    ResponseEntity<String> delete(@PathVariable("id") Long id){
         return loanService.delete(id);
     }
 }
