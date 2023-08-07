@@ -1,6 +1,6 @@
 package br.com.loangenius.services;
 
-import br.com.loangenius.entities.Loan;
+import br.com.loangenius.entities.loan.Loan;
 import br.com.loangenius.exceptions.BadRequestException;
 import br.com.loangenius.repositories.LoanRepository;
 import org.springframework.http.ResponseEntity;

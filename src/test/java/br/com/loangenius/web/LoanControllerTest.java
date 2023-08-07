@@ -1,6 +1,6 @@
 package br.com.loangenius.web;
 
-import br.com.loangenius.entities.Loan;
+import br.com.loangenius.entities.loan.Loan;
 import br.com.loangenius.services.LoanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
