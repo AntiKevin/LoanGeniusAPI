@@ -1,8 +1,8 @@
-package br.com.loangenius.services;
+package br.com.loangenius.application.services;
 
-import br.com.loangenius.entities.loan.Loan;
-import br.com.loangenius.exceptions.BadRequestException;
-import br.com.loangenius.repositories.LoanRepository;
+import br.com.loangenius.domain.models.Loan;
+import br.com.loangenius.domain.exceptions.BadRequestException;
+import br.com.loangenius.domain.repositories.LoanRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

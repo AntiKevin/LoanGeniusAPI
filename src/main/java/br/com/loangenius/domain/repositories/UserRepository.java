@@ -1,6 +1,6 @@
-package br.com.loangenius.repositories;
+package br.com.loangenius.domain.repositories;
 
-import br.com.loangenius.entities.user.User;
+import br.com.loangenius.domain.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

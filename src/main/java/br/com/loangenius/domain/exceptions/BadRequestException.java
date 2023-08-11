@@ -1,4 +1,4 @@
-package br.com.loangenius.exceptions;
+package br.com.loangenius.domain.exceptions;
 
 public class BadRequestException extends RuntimeException {
 

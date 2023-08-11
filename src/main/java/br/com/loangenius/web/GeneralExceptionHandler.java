@@ -1,6 +1,6 @@
 package br.com.loangenius.web;
 
-import br.com.loangenius.exceptions.BadRequestException;
+import br.com.loangenius.domain.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

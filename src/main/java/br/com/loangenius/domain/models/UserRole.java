@@ -1,4 +1,4 @@
-package br.com.loangenius.entities.user;
+package br.com.loangenius.domain.models;
 
 public enum UserRole {
     ADMIN("admin"),

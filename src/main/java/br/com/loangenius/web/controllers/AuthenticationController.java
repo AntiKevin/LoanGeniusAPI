@@ -1,10 +1,10 @@
-package br.com.loangenius.web;
+package br.com.loangenius.web.controllers;
 
-import br.com.loangenius.entities.user.AuthenticationDTO;
-import br.com.loangenius.entities.user.RegisterDTO;
-import br.com.loangenius.entities.user.User;
-import br.com.loangenius.exceptions.BadRequestException;
-import br.com.loangenius.repositories.UserRepository;
+import br.com.loangenius.application.dtos.AuthenticationDTO;
+import br.com.loangenius.application.dtos.RegisterDTO;
+import br.com.loangenius.domain.models.User;
+import br.com.loangenius.domain.exceptions.BadRequestException;
+import br.com.loangenius.domain.repositories.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

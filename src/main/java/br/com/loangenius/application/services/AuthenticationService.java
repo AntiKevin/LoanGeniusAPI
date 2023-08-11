@@ -1,6 +1,6 @@
-package br.com.loangenius.services;
+package br.com.loangenius.application.services;
 
-import br.com.loangenius.repositories.UserRepository;
+import br.com.loangenius.domain.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

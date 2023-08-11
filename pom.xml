@@ -77,6 +77,11 @@
 			<version>3.12.4</version> <!-- Versão do Mockito (verifique a versão mais recente) -->
 			<scope>test</scope> <!-- Indica que é uma dependência apenas para testes -->
 		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 
 	</dependencies>
 

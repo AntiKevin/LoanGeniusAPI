@@ -1,4 +1,4 @@
-package br.com.loangenius.entities.loan;
+package br.com.loangenius.domain.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

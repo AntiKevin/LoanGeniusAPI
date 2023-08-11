@@ -1,4 +1,4 @@
-package br.com.loangenius.entities.user;
+package br.com.loangenius.application.dtos;
 
 public record AuthenticationDTO(String login, String password) {
 }

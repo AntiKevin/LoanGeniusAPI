@@ -1,4 +1,4 @@
-package br.com.loangenius.config;
+package br.com.loangenius.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

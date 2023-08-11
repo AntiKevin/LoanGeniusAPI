@@ -1,7 +1,7 @@
-package br.com.loangenius.web;
+package br.com.loangenius.web.controllers;
 
-import br.com.loangenius.entities.loan.Loan;
-import br.com.loangenius.services.LoanService;
+import br.com.loangenius.domain.models.Loan;
+import br.com.loangenius.application.services.LoanService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

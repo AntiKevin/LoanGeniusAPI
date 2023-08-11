@@ -1,7 +1,7 @@
 package br.com.loangenius.web;
 
-import br.com.loangenius.entities.loan.Loan;
-import br.com.loangenius.services.LoanService;
+import br.com.loangenius.domain.models.Loan;
+import br.com.loangenius.application.services.LoanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
