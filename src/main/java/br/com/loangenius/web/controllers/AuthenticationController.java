@@ -1,10 +1,12 @@
 package br.com.loangenius.web.controllers;
 
 import br.com.loangenius.application.dtos.AuthenticationDTO;
+import br.com.loangenius.application.dtos.LoginResponseDTO;
 import br.com.loangenius.application.dtos.RegisterDTO;
 import br.com.loangenius.domain.models.User;
 import br.com.loangenius.domain.exceptions.BadRequestException;
 import br.com.loangenius.domain.repositories.UserRepository;
+import br.com.loangenius.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +28,21 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/token")
     public ResponseEntity token(@RequestBody @Valid AuthenticationDTO data) throws BadRequestException {
         try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((User) auth.getPrincipal());
+
+            return ResponseEntity.ok(new LoginResponseDTO(token));
         }catch (Exception exception){
         throw new BadRequestException("erro na requisição");
         }
-        return ResponseEntity.ok().build();
+
 
     }
 
