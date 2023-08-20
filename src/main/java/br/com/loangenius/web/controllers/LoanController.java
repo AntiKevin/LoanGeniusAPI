@@ -1,5 +1,6 @@
 package br.com.loangenius.web.controllers;
 
+import br.com.loangenius.application.dtos.CalculateLoanDTO;
 import br.com.loangenius.domain.models.Loan;
 import br.com.loangenius.application.services.LoanService;
 import jakarta.validation.Valid;
@@ -22,6 +23,11 @@ public class LoanController {
     @GetMapping
     List<Loan> list(){
         return loanService.list();
+    }
+
+    @PostMapping("/calculate")
+    ResponseEntity<CalculateLoanDTO> calculate(@RequestBody Loan loan){
+        return ResponseEntity.ok(loanService.calculate(loan));
     }
 
     @GetMapping("{id}")

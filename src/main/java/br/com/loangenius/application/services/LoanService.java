@@ -1,5 +1,6 @@
 package br.com.loangenius.application.services;
 
+import br.com.loangenius.application.dtos.CalculateLoanDTO;
 import br.com.loangenius.domain.models.Loan;
 import br.com.loangenius.domain.exceptions.BadRequestException;
 import br.com.loangenius.domain.repositories.LoanRepository;
@@ -57,4 +58,12 @@ public class LoanService {
         return null;
     }
 
+    public CalculateLoanDTO calculate(Loan loan){
+        CalculateLoanDTO response = new CalculateLoanDTO();
+        response.setAmount(loan.getAmount());
+        response.setInstallments(loan.getInstallments());
+        response.setInterest(loan.getInterest());
+        response.setTotalRepayment(loan.getTotalRepayment());
+        return response;
+    }
 }
