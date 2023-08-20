@@ -60,7 +60,7 @@ public class Loan {
 
     @Transient
     public Double getTotalRepayment() {
-        double totalRepayment = amount + (amount * (interest / 100)) * installments;
+        double totalRepayment = amount * Math.pow((1 + (interest / 100)), installments);
         return totalRepayment;
     }
 
