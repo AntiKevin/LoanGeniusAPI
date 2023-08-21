@@ -1,10 +1,12 @@
 package br.com.loangenius.application.dtos;
 
+import java.math.BigDecimal;
+
 public class CalculateLoanDTO {
     private Double amount;
     private Double installments;
     private Double interest;
-    private Double totalRepayment;
+    private BigDecimal totalRepayment;
 
     public Double getAmount() {
         return amount;
@@ -30,11 +32,11 @@ public class CalculateLoanDTO {
         this.interest = interest;
     }
 
-    public Double getTotalRepayment() {
+    public BigDecimal getTotalRepayment() {
         return totalRepayment;
     }
 
-    public void setTotalRepayment(Double totalRepayment) {
+    public void setTotalRepayment(BigDecimal totalRepayment) {
         this.totalRepayment = totalRepayment;
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Entity
@@ -58,10 +60,14 @@ public class Loan {
         this.interest = interest;
     }
 
+    public BigDecimal setBigDecimal(double valor) {
+        return BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_UP);
+    }
+
     @Transient
-    public Double getTotalRepayment() {
+    public BigDecimal getTotalRepayment() {
         double totalRepayment = amount * Math.pow((1 + (interest / 100)), installments);
-        return totalRepayment;
+        return setBigDecimal(totalRepayment);
     }
 
     public LocalDateTime getCreatedAt() {
