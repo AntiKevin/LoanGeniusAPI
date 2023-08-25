@@ -1,4 +1,4 @@
-package br.com.loangenius.web.controllers;
+package br.com.loangenius.api;
 
 import br.com.loangenius.application.dtos.AuthenticatedUserResponse;
 import br.com.loangenius.application.dtos.AuthenticationDTO;
@@ -19,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RestController

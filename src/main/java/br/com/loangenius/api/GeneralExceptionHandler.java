@@ -1,4 +1,4 @@
-package br.com.loangenius.web;
+package br.com.loangenius.api;
 
 import br.com.loangenius.domain.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;

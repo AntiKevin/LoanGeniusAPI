@@ -1,4 +1,4 @@
-package br.com.loangenius.web;
+package br.com.loangenius.api;
 
 import br.com.loangenius.domain.models.Loan;
 import br.com.loangenius.application.services.LoanService;

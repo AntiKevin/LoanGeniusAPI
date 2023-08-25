@@ -1,4 +1,4 @@
-package br.com.loangenius.web.controllers;
+package br.com.loangenius.api;
 
 import br.com.loangenius.application.dtos.CalculateLoanDTO;
 import br.com.loangenius.domain.models.Loan;
