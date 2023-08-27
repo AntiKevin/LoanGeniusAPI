@@ -37,7 +37,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity token(@RequestBody @Valid AuthenticationDTO data) throws BadRequestException {
         try {
-            var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.password());
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generateToken((User) auth.getPrincipal());
 
@@ -51,12 +51,12 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        if (this.userRepository.findByLogin(data.username()) != null) {
+        if (this.userRepository.findByLogin(data.login()) != null) {
             throw new BadRequestException("Nome de usuário indisponível");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.username(), encryptedPassword, data.role());
+        User newUser = new User(data.login(), encryptedPassword, data.role());
 
         this.userRepository.save(newUser);
 
