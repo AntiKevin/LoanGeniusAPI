@@ -23,6 +23,10 @@ public class Loan {
     private Double installments;
     @NotBlank
     private Double interest;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @NotBlank
+    private User user;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
@@ -68,6 +72,14 @@ public class Loan {
     public BigDecimal getTotalRepayment() {
         double totalRepayment = amount * Math.pow((1 + (interest / 100)), installments);
         return setBigDecimal(totalRepayment);
+    }
+
+    public Long getUser() {
+        return user.getId();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {
