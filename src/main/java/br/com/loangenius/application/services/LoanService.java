@@ -40,19 +40,19 @@ public class LoanService {
     }
 
     public Loan listById(Long id) {
-        Optional<Loan> contaOptional = loanRepository.findById(id);
+        Optional<Loan> loanOptional = loanRepository.findById(id);
 
-        if (contaOptional.isPresent()) {
+        if (loanOptional.isPresent()) {
             User currentUser = authenticationService.getCurrentUser();
             Long currentUserId = currentUser.getId();
             Loan loan = loanRepository.getById(id);
-            Long loanId = loan.getId();
+            Long loanId = loan.getUser();
 
             if (loanId.equals(currentUserId)){
                 return loan;
             }
             else {
-                throw new BadRequestException("Emprestimo com o id inserido inacessível!");
+                throw new BadRequestException("Emprestimo com o id inserido inacessível!"+ loanId + currentUserId);
             }
 
         }
