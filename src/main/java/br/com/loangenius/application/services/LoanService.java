@@ -43,29 +43,26 @@ public class LoanService {
         Optional<Loan> loanOptional = loanRepository.findById(id);
 
         if (loanOptional.isPresent()) {
+            Loan loan = loanOptional.get();
             User currentUser = authenticationService.getCurrentUser();
             Long currentUserId = currentUser.getId();
-            Loan loan = loanRepository.getById(id);
-            Long loanId = loan.getUser();
+            Long loanUserId = loan.getUser();
 
-            if (loanId.equals(currentUserId)){
+            if (loanUserId.equals(currentUserId)) {
                 return loan;
+            } else {
+                throw new BadRequestException("Empréstimo com o ID inserido inacessível!");
             }
-            else {
-                throw new BadRequestException("Emprestimo com o id inserido inacessível!"+ loanId + currentUserId);
-            }
-
-        }
-        else {
-            throw new BadRequestException("Emprestimo com o id inserido não existe!");
+        } else {
+            throw new BadRequestException("Empréstimo com o ID inserido não existe!");
         }
     }
+
 
     public Loan create(Loan loan) {
         User principal = authenticationService.getCurrentUser();
         if (principal == null) {
-            // Trate o caso onde o usuário não foi encontrado
-            throw new BadRequestException("User not found");
+            throw new BadRequestException("Usuário não encontrado");
         }
 
         loan.setUser(principal);
@@ -86,7 +83,6 @@ public class LoanService {
         Loan existingLoan = listById(id);
         Long existingLoanId = existingLoan.getId();
         loanRepository.deleteById(existingLoanId);
-
         return null;
     }
 
