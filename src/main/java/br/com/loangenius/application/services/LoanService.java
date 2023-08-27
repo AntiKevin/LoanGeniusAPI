@@ -71,19 +71,30 @@ public class LoanService {
     }
 
 
-    public Loan update(Long id, Loan loan){
-        Loan existingLoan = listById(id);
-        loan.setId(id);
-        loan.setCreatedAt(existingLoan.getCreatedAt());
-        loanRepository.save(loan);
-        return listById(id);
+    public Loan update(Long id, Loan loan) {
+        try {
+            Loan existingLoan = listById(id);
+            existingLoan.setId(id);
+            existingLoan.setCreatedAt(existingLoan.getCreatedAt());
+            loanRepository.save(existingLoan);
+            return listById(id);
+        } catch (Exception exception) {
+            throw new BadRequestException("Erro ao atualizar empréstimo");
+        }
     }
 
+
     public ResponseEntity<String> delete(Long id) {
-        Loan existingLoan = listById(id);
-        Long existingLoanId = existingLoan.getId();
-        loanRepository.deleteById(existingLoanId);
-        return null;
+        try{
+            Loan existingLoan = listById(id);
+            Long existingLoanId = existingLoan.getId();
+            loanRepository.deleteById(existingLoanId);
+            return null;
+        }
+        catch (Exception exception){
+            throw new BadRequestException("erro ao deletar empréstimo");
+        }
+
     }
 
     public CalculateLoanDTO calculate(Loan loan){
