@@ -4,6 +4,7 @@ import br.com.loangenius.application.dtos.AuthenticatedUserResponse;
 import br.com.loangenius.application.dtos.AuthenticationDTO;
 import br.com.loangenius.application.dtos.LoginResponseDTO;
 import br.com.loangenius.application.dtos.RegisterDTO;
+import br.com.loangenius.application.services.AuthenticationService;
 import br.com.loangenius.domain.models.User;
 import br.com.loangenius.domain.exceptions.BadRequestException;
 import br.com.loangenius.domain.repositories.UserRepository;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,9 @@ public class AuthenticationController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @PostMapping("/login")
     public ResponseEntity token(@RequestBody @Valid AuthenticationDTO data) throws BadRequestException {
@@ -66,8 +71,7 @@ public class AuthenticationController {
 
     @GetMapping("/user")
     public ResponseEntity<AuthenticatedUserResponse> getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User principal = (User) authentication.getPrincipal();
+        UserDetails principal = authenticationService.getCurrentUser();
 
         AuthenticatedUserResponse response = new AuthenticatedUserResponse();
         response.setLogin(principal.getUsername());

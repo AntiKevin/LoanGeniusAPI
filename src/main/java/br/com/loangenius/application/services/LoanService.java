@@ -7,6 +7,9 @@ import br.com.loangenius.domain.models.User;
 import br.com.loangenius.domain.repositories.LoanRepository;
 import br.com.loangenius.domain.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,55 +22,71 @@ public class LoanService {
 
     private UserRepository userRepository;
 
-    public LoanService(LoanRepository loanRepository, UserRepository userRepository) {
+    private AuthenticationService authenticationService;
+
+    public LoanService(LoanRepository loanRepository,
+                       UserRepository userRepository,
+                       AuthenticationService authenticationService) {
         this.loanRepository = loanRepository;
         this.userRepository = userRepository;
+        this.authenticationService = authenticationService;
     }
 
     public List<Loan> list() {
-        return loanRepository.findAll();
+        User principal = authenticationService.getCurrentUser();
+        Long userId = principal.getId();
+
+        return loanRepository.findByUserId(userId);
     }
 
     public Loan listById(Long id) {
         Optional<Loan> contaOptional = loanRepository.findById(id);
 
         if (contaOptional.isPresent()) {
-            return loanRepository.getById(id);
-        } else {
+            User currentUser = authenticationService.getCurrentUser();
+            Long currentUserId = currentUser.getId();
+            Loan loan = loanRepository.getById(id);
+            Long loanId = loan.getId();
+
+            if (loanId.equals(currentUserId)){
+                return loan;
+            }
+            else {
+                throw new BadRequestException("Emprestimo com o id inserido inacessível!");
+            }
+
+        }
+        else {
             throw new BadRequestException("Emprestimo com o id inserido não existe!");
         }
     }
 
     public Loan create(Loan loan) {
-        User user = userRepository.findById(loan.getUser()).orElse(null);
-        if (user == null) {
+        User principal = authenticationService.getCurrentUser();
+        if (principal == null) {
             // Trate o caso onde o usuário não foi encontrado
             throw new BadRequestException("User not found");
         }
 
-        loan.setUser(user);
+        loan.setUser(principal);
         loanRepository.save(loan);
         return loan;
     }
 
 
     public Loan update(Long id, Loan loan){
-        loanRepository.findById(id).ifPresentOrElse((existingLoan) -> {
-            loan.setId(id);
-            loan.setCreatedAt(existingLoan.getCreatedAt());
-            loanRepository.save(loan);
-        }, () -> {
-            throw new BadRequestException("Emprestimo com o id inserido não existe!");
-        });
+        Loan existingLoan = listById(id);
+        loan.setId(id);
+        loan.setCreatedAt(existingLoan.getCreatedAt());
+        loanRepository.save(loan);
         return listById(id);
     }
 
     public ResponseEntity<String> delete(Long id) {
-        loanRepository.findById(id).ifPresentOrElse((existingLoan) -> {
-            loanRepository.deleteById(id);
-        }, () -> {
-            throw new BadRequestException("Emprestimo com o id inserido não existe!");
-        });
+        Loan existingLoan = listById(id);
+        Long existingLoanId = existingLoan.getId();
+        loanRepository.deleteById(existingLoanId);
+
         return null;
     }
 
