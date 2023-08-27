@@ -74,12 +74,14 @@ public class LoanService {
     public Loan update(Long id, Loan loan) {
         try {
             Loan existingLoan = listById(id);
-            existingLoan.setId(id);
-            existingLoan.setCreatedAt(existingLoan.getCreatedAt());
-            loanRepository.save(existingLoan);
+            User currentUser = authenticationService.getCurrentUser();
+            loan.setId(id);
+            loan.setUser(currentUser);
+            loan.setCreatedAt(existingLoan.getCreatedAt());
+            loanRepository.save(loan);
             return listById(id);
         } catch (Exception exception) {
-            throw new BadRequestException("Erro ao atualizar empréstimo");
+            throw new BadRequestException("Erro ao atualizar empréstimo: " + exception);
         }
     }
 
