@@ -24,12 +24,17 @@ public class LoanService {
 
     private AuthenticationService authenticationService;
 
+    private SACDetailsService sacDetailsService;
+
     public LoanService(LoanRepository loanRepository,
                        UserRepository userRepository,
-                       AuthenticationService authenticationService) {
+                       AuthenticationService authenticationService,
+                       SACDetailsService sacDetailsService
+    ) {
         this.loanRepository = loanRepository;
         this.userRepository = userRepository;
         this.authenticationService = authenticationService;
+        this.sacDetailsService = sacDetailsService;
     }
 
     public List<Loan> list() {
@@ -66,6 +71,7 @@ public class LoanService {
         }
 
         loan.setUser(principal);
+        sacDetailsService.calculateSACTable(loan);
         loanRepository.save(loan);
         return loan;
     }
@@ -78,6 +84,8 @@ public class LoanService {
             loan.setId(id);
             loan.setUser(currentUser);
             loan.setCreatedAt(existingLoan.getCreatedAt());
+            sacDetailsService.deleteLoanSAC(loan);
+            sacDetailsService.calculateSACTable(loan);
             loanRepository.save(loan);
             return listById(id);
         } catch (Exception exception) {
@@ -99,12 +107,14 @@ public class LoanService {
 
     }
 
-    public CalculateLoanDTO calculate(Loan loan){
-        CalculateLoanDTO response = new CalculateLoanDTO();
-        response.setAmount(loan.getAmount());
-        response.setInstallments(loan.getInstallments());
-        response.setInterest(loan.getInterest());
-        response.setTotalRepayment(loan.getTotalRepayment());
-        return response;
+    public Loan calculate(Loan loan){
+        User principal = authenticationService.getCurrentUser();
+        if (principal == null) {
+            throw new BadRequestException("Usuário não encontrado");
+        }
+
+        loan.setUser(principal);
+        sacDetailsService.calculateSACTable(loan);
+        return loan;
     }
 }

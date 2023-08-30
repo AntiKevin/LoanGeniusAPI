@@ -1,5 +1,6 @@
 package br.com.loangenius.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "loans")
@@ -27,6 +30,10 @@ public class Loan {
     @JoinColumn(name = "user_id")
     @NotBlank
     private User user;
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    @NotBlank
+    @JsonManagedReference
+    private List<SACDetails> sacDetailsList = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
@@ -70,8 +77,11 @@ public class Loan {
 
     @Transient
     public BigDecimal getTotalRepayment() {
-        double totalRepayment = amount * Math.pow((1 + (interest / 100)), installments);
-        return setBigDecimal(totalRepayment);
+        BigDecimal totalRepayment = BigDecimal.ZERO;
+        for (SACDetails sacDetails : sacDetailsList) {
+            totalRepayment = totalRepayment.add(sacDetails.getPrincipalPayment());
+        }
+        return totalRepayment;
     }
 
     public Long getUser() {
@@ -80,6 +90,14 @@ public class Loan {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<SACDetails> getSacDetailsList() {
+        return sacDetailsList;
+    }
+
+    public void setSacDetailsList(List<SACDetails> sacDetailsList) {
+        this.sacDetailsList = sacDetailsList;
     }
 
     public LocalDateTime getCreatedAt() {

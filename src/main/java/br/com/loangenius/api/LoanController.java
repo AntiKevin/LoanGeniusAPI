@@ -26,7 +26,7 @@ public class LoanController {
     }
 
     @PostMapping("/calculate")
-    ResponseEntity<CalculateLoanDTO> calculate(@RequestBody Loan loan){
+    ResponseEntity<Loan> calculate(@RequestBody Loan loan){
         return ResponseEntity.ok(loanService.calculate(loan));
     }
 
