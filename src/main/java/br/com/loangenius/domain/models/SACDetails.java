@@ -19,6 +19,8 @@ public class SACDetails {
     private BigDecimal interestPayment;
     @NotBlank
     private BigDecimal debitBalance;
+    @NotBlank
+    private BigDecimal amortization;
 
     @ManyToOne
     @JoinColumn(name = "loan_id")
@@ -63,6 +65,14 @@ public class SACDetails {
 
     public void setDebitBalance(BigDecimal debitBalance) {
         this.debitBalance = debitBalance;
+    }
+
+    public BigDecimal getAmortization() {
+        return amortization;
+    }
+
+    public void setAmortization(BigDecimal amortization) {
+        this.amortization = amortization;
     }
 
     public Loan getLoan() {

@@ -23,23 +23,23 @@ public class SACDetailsService {
         BigDecimal principalRemaining = BigDecimal.valueOf(loan.getAmount());
         BigDecimal installmentAmount = principalRemaining.divide(BigDecimal.valueOf(loan.getInstallments()));
         BigDecimal interestRate = BigDecimal.valueOf(loan.getInterest()).divide(BigDecimal.valueOf(100));
-        BigDecimal totalRepayment = loan.getTotalRepayment();
 
         for (int i = 1; i <= loan.getInstallments(); i++) {
             BigDecimal interestPayment = principalRemaining.multiply(interestRate);
             BigDecimal principalPayment = installmentAmount.add(interestPayment);
-            BigDecimal debitBalance = totalRepayment.subtract(principalPayment);
+
+            principalRemaining = principalRemaining.subtract(installmentAmount);
 
             SACDetails sacDetails = new SACDetails();
             sacDetails.setInstallmentNumber(BigDecimal.valueOf(i));
             sacDetails.setPrincipalPayment(principalPayment);
             sacDetails.setInterestPayment(interestPayment);
-            sacDetails.setDebitBalance(debitBalance);
+            sacDetails.setDebitBalance(principalRemaining);
+            sacDetails.setAmortization(installmentAmount);
             sacDetails.setLoan(loan);
 
             loan.getSacDetailsList().add(sacDetails);
 
-            principalRemaining = principalRemaining.subtract(installmentAmount);
         }
     }
 
